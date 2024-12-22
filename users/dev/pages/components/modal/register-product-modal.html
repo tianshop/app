@@ -1,4 +1,5 @@
 <!-- Register Modal -->
+
 <div class="modal fade" id="registerProductModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -7,7 +8,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="row g-4" id="modalForm" novalidate>
+        <form class="row g-4" id="modalForm" style="text-align: center;" novalidate>
 
           <div class="col-md-6">
             <label for="fecha" class="form-label">Fecha</label>
@@ -47,30 +48,30 @@
               <input id="venta" class="form-control" placeholder="Venta" required />
             </div>
             <div class="col-md-6">
-              <label for="precioUnitario" class="form-label">P. Unitario</label>
-              <input id="precioUnitario" class="form-control" placeholder="P. Unitario" required />
+              <label for="costoUnitario" class="form-label">Costo Unitario</label>
+              <input id="costoUnitario" class="form-control" placeholder="P. Unitario" required readonly />
             </div>
           </div>
 
           <div class="display-flex-center">
+            <div class="col-md-6">
+              <label for="costo" class="form-label">Costo por Caja</label>
+              <input id="costo" class="form-control" placeholder="Costo" required />
+            </div>
             <div class="col-md-6">
               <label for="ganancia" class="form-label">Ganancia</label>
-              <input id="ganancia" class="form-control" placeholder="Ganancia" required />
-            </div>
-            <div class="col-md-6">
-              <label for="precio" class="form-label">Precio</label>
-              <input id="precio" class="form-control" placeholder="Precio" required />
+              <input id="ganancia" class="form-control" placeholder="Ganancia" required readonly />
             </div>
           </div>
 
           <div class="display-flex-center">
             <div class="col-md-6">
-              <label for="porcentaje" class="form-label">Porcentaje</label>
-              <input id="porcentaje" class="form-control" placeholder="Porcentaje" required />
+              <label for="unidades" class="form-label">Unidades</label>
+              <input id="unidades" class="form-control" placeholder="Unidades" required />
             </div>
             <div class="col-md-6">
-              <label for="cantidad" class="form-label">Cantidad</label>
-              <input id="cantidad" class="form-control" placeholder="Cantidad" required />
+              <label for="porcentaje" class="form-label">Porcentaje</label>
+              <input id="porcentaje" class="form-control" placeholder="Porcentaje" required readonly />
             </div>
           </div>
 
@@ -79,10 +80,15 @@
             <div class="line"></div>
           </div>
 
+          <div>
+            <label for="costoConItbms-Descuento" class="form-label">Costo con Itbms y Descuento</label>
+            <input id="costoConItbms-Descuento" class="form-control" placeholder="Costo" required readonly />
+          </div>
+
           <div class="display-flex-center">
             <div class="col-md-6">
               <label for="itbms" class="form-label">Itbms</label>
-              <select id="itbms" class="form-control" required>
+              <select id="itbms" class="form-control" style="text-align: center;" required>
                 <option value="" disabled selected>Selecciona ITBMS</option>
                 <option value="0">Sin Itbms</option>
                 <option value="7">7%</option>

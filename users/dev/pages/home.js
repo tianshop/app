@@ -6,7 +6,7 @@ import { database } from "../../../environment/firebaseConfig.js";
 
 import { checkAuth } from "../../../modules/accessControl/authCheck.js";
 
-import { deleteRow } from "../modules/tabla/deleteRow.js";
+// import { deleteRow } from "../modules/tabla/deleteRow.js";
 // import { initializeSearch } from "./modules/searchFunction.js";
 // Constantes y variables de estado
 const tabla = document.getElementById("contenidoTabla");
@@ -45,7 +45,7 @@ export function mostrarDatos() {
           `;
       tabla.innerHTML += row;
     }
-    deleteRow(database, collection);
+    // deleteRow(database, collection);
 
   });
 }
