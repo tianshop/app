@@ -1,6 +1,6 @@
 /* login.css */
-@import url(./css/toggle-password.css);
-@import url(./css/validation.css);
+@import url(./auth/showHidePassword/toggle-password.css);
+@import url(./auth/showHidePassword/validation.css);
 
 * {
     margin: 0;

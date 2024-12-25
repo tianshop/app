@@ -2,7 +2,8 @@
 @import '../../../../css/global.css';
 
 @import '../components/buttons/searchInputAndButton.css';
-@import '../components/modal/register-product-modal.css';
+@import '../components/modal/product-modal.css';
+@import '../components/toast/toast.css';
 @import './table.css';
 
 * {
@@ -11,7 +12,6 @@
     box-sizing: border-box;
     font-family: poppins;
 }
-
 
 body {
     background-color: white;
