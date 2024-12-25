@@ -1,2 +1,2 @@
-implementar EditRow
-y agregar, deleteRow
+implementar , deleteRow
+searchFunction
