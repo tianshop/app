@@ -3,6 +3,7 @@
 
 @import '../components/buttons/searchInputAndButton.css';
 @import '../components/modal/product-modal.css';
+@import '../modules/popover/popover.css';
 @import '../components/toast/toast.css';
 @import './table.css';
 

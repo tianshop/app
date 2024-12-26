@@ -51,8 +51,8 @@ export function initializeEditProductModal() {
 
   // Asignar valores iniciales al abrir el modal
   document.addEventListener("click", async (e) => {
-    if (e.target.closest(".edit-user-button")) {
-      const button = e.target.closest(".edit-user-button");
+    if (e.target.closest(".edit-product-button")) {
+      const button = e.target.closest(".edit-product-button");
       currentProductId = button.dataset.id;
 
       const currentUser = auth.currentUser;
