@@ -17,6 +17,9 @@ export function createTableRow(productData, filaNumero) {
                       <button class='btn btn-sm btn-danger delete-product-button' data-id='${productData.id}'>
                         Eliminar
                       </button>
+                      <button class='btn btn-sm btn-secondary duplicate-product-button' data-id='${productData.id}'>
+                        Duplicar
+                      </button>
                     </div>
                   ">
             <i class="bi bi-three-dots-vertical"></i>

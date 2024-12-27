@@ -5,10 +5,11 @@ import {
 import { database, auth } from "../../../environment/firebaseConfig.js";
 import { checkAuth } from "../../../modules/accessControl/authCheck.js";
 import { getUserEmail } from "../../../modules/accessControl/getUserEmail.js";
-import { initializeDeleteProductRow } from "./modules/tabla/deleteProductRow.js";
 import { createTableRow } from "./modules/tabla/createTableRow.js";
 import { initializePopovers } from "./modules/popover/popover.js";
 import { initializeSearchProduct } from "./modules/tabla/search-product.js";
+import { initializeDeleteProductRow } from "./modules/tabla/deleteProductRow.js";
+import { initializeDuplicateProductRow } from "./modules/tabla/duplicateProductRow.js";
 
 // Constantes y variables de estado
 const tabla = document.getElementById("contenidoTabla");
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       mostrarDatos(); // Mostrar datos solo si el usuario está autenticado
       initializeDeleteProductRow(); // Inicializar eliminación de productos
       initializeSearchProduct(); // Inicializar la funcionalidad de búsqueda
+      initializeDuplicateProductRow();
       try {
         const email = await getUserEmail(); // Obtener correo del usuario
         console.log(`Correo del usuario: ${email}`); // Mostrar correo en la consola

@@ -42,7 +42,8 @@ export function initializePopovers() {
             if (popoverElement) {
                 popoverElement.addEventListener('click', (e) => {
                     if (e.target.classList.contains('edit-product-button') ||
-                        e.target.classList.contains('delete-product-button')) {
+                        e.target.classList.contains('delete-product-button') ||
+                        e.target.classList.contains('duplicate-product-button')) {
                         popover.hide();
                         currentOpenPopover = null;
                     }

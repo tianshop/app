@@ -1,4 +1,4 @@
-import "../modal/register-product-modal.js"
+import "../modal/register-product.js"
 
 function loadSearchComponent() {
     fetch('./components/buttons/search-component.html')
