@@ -36,6 +36,20 @@ export function initializePopovers() {
             currentOpenPopover = popover;
         });
 
+        // Agregar evento para manejar el clic en los botones dentro del popover
+        popoverTriggerEl.addEventListener('shown.bs.popover', () => {
+            const popoverElement = document.querySelector('.popover');
+            if (popoverElement) {
+                popoverElement.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('edit-product-button') ||
+                        e.target.classList.contains('delete-product-button')) {
+                        popover.hide();
+                        currentOpenPopover = null;
+                    }
+                });
+            }
+        });
+
         return popover;
     });
 

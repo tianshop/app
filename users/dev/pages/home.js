@@ -7,7 +7,8 @@ import { checkAuth } from "../../../modules/accessControl/authCheck.js";
 import { getUserEmail } from "../../../modules/accessControl/getUserEmail.js";
 import { initializeDeleteProductRow } from "./modules/tabla/deleteProductRow.js";
 import { createTableRow } from "./modules/tabla/createTableRow.js";
-import { initializePopovers } from "./modules//popover/popover.js";
+import { initializePopovers } from "./modules/popover/popover.js";
+import { initializeSearchProduct } from "./modules/tabla/search-product.js";
 
 // Constantes y variables de estado
 const tabla = document.getElementById("contenidoTabla");
@@ -31,7 +32,7 @@ export function mostrarDatos() {
       data.push({ id: childSnapshot.key, ...childSnapshot.val() });
     });
 
-    data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    data.sort((b, a) => new Date(a.fecha) - new Date(b.fecha));
 
     let filaNumero = 1;
 
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (user) {
       mostrarDatos(); // Mostrar datos solo si el usuario está autenticado
       initializeDeleteProductRow(); // Inicializar eliminación de productos
-
+      initializeSearchProduct(); // Inicializar la funcionalidad de búsqueda
       try {
         const email = await getUserEmail(); // Obtener correo del usuario
         console.log(`Correo del usuario: ${email}`); // Mostrar correo en la consola

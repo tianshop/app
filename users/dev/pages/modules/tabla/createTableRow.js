@@ -1,3 +1,4 @@
+// createTableRow.js
 export function createTableRow(productData, filaNumero) {
   return `
       <tr>
