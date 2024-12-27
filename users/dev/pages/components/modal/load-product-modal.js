@@ -1,6 +1,7 @@
 // register-product-modal.js
 import { initializeRegisterAndSaveProduct } from "./register-product-modal.js";
 import { initializeEditProductModal } from "./edit-product-modal.js";
+import { initializeDeleteProductRow } from "../../modules/tabla/deleteProductRow.js";
 
 // Función genérica para cargar modales
 function loadModal(htmlPath, containerId, initializeCallback) {
@@ -31,4 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "edit-product-modal-container",
     initializeEditProductModal
   );
+
+  loadModal(
+    "./modules/tabla/deleteProduct-confirmation-modal.html",
+    "delete-product-confirmation-modal-container",
+    initializeDeleteProductRow
+  );
+
 });

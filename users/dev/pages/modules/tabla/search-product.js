@@ -42,7 +42,8 @@ export function initializeSearchProduct() {
         return (
           product.producto.empresa.toLowerCase().includes(query.toLowerCase()) ||
           product.producto.marca.toLowerCase().includes(query.toLowerCase()) ||
-          product.producto.descripcion.toLowerCase().includes(query.toLowerCase())
+          product.producto.descripcion.toLowerCase().includes(query.toLowerCase()) ||
+          (product.fecha && product.fecha.includes(query)) // Buscar por fecha
         );
       });
 
@@ -74,8 +75,6 @@ function displaySearchResults(results) {
     resultsContainer.innerHTML += tableRowHTML;
   });
 
-    // Inicializar popovers después de renderizar la tabla
-    initializePopovers();
-
-
+  // Inicializar popovers después de renderizar la tabla
+  initializePopovers();
 }

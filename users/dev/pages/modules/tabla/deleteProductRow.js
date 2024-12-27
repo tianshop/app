@@ -15,31 +15,57 @@ export function initializeDeleteProductRow() {
       return;
     }
 
-    // Confirmación del usuario
-    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este producto?");
-    if (!confirmDelete) return;
+    // Mostrar modal de confirmación
+    const confirmationModalElement = document.getElementById("deleteConfirmationModal");
+    const confirmationModal = new bootstrap.Modal(confirmationModalElement);
+    const confirmButton = document.getElementById("confirmDeleteButton");
+    const cancelButton = document.querySelector(".btn-secondary[data-bs-dismiss='modal']");
 
-    try {
-      const currentUser = auth.currentUser;
-      if (!currentUser) {
-        showToast("Debes iniciar sesión para eliminar un producto.", "error");
-        return;
-      }
-
-      const userId = currentUser.uid;
-      const productRef = ref(database, `users/${userId}/productData/${productId}`);
-
-      // Eliminar el producto de la base de datos
-      await remove(productRef);
-
-      // Mostrar un mensaje de éxito
-      showToast("Producto eliminado con éxito.", "success");
-
-      // Opcional: Puedes recargar los datos de la tabla aquí si no se eliminan dinámicamente
-      // Ejemplo: mostrarDatos();
-    } catch (error) {
-      console.error("Error al eliminar el producto:", error);
-      showToast("Hubo un error al eliminar el producto.", "error");
+    if (!confirmationModal || !confirmButton || !cancelButton) {
+      console.error("No se encontró el modal o los botones necesarios.");
+      return;
     }
+
+    confirmationModal.show();
+
+    // Cerrar correctamente al cancelar
+    cancelButton.addEventListener("click", () => {
+      confirmationModal.hide(); // Cierra el modal
+      removeBackdrop(); // Elimina cualquier fondo gris sobrante
+    });
+
+    confirmButton.onclick = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          showToast("Debes iniciar sesión para eliminar un producto.", "error");
+          return;
+        }
+
+        const userId = currentUser.uid;
+        const productRef = ref(database, `users/${userId}/productData/${productId}`);
+
+        // Eliminar el producto de la base de datos
+        await remove(productRef);
+
+        // Mostrar un mensaje de éxito
+        showToast("Producto eliminado con éxito.", "success");
+
+        // Ocultar el modal de confirmación
+        confirmationModal.hide();
+        removeBackdrop(); // Asegura que el fondo gris se elimine correctamente
+
+      } catch (error) {
+        console.error("Error al eliminar el producto:", error);
+        showToast("Hubo un error al eliminar el producto.", "error");
+      }
+    };
+
+    // Función para limpiar el fondo gris
+    function removeBackdrop() {
+      const backdrops = document.querySelectorAll(".modal-backdrop");
+      backdrops.forEach((backdrop) => backdrop.remove());
+    }
+
   });
 }
