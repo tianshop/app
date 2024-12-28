@@ -6,6 +6,7 @@ import { database, auth } from "../../../environment/firebaseConfig.js";
 import { checkAuth } from "../../../modules/accessControl/authCheck.js";
 import { getUserEmail } from "../../../modules/accessControl/getUserEmail.js";
 import { setupInstallPrompt } from '../../../modules/installPrompt.js';
+
 import { createTableRow } from "./modules/tabla/createTableRow.js";
 import { initializePopovers } from "./modules/popover/popover.js";
 import { initializeSearchProduct } from "./modules/tabla/search-product.js";
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       initializeDeleteProductRow(); // Inicializar eliminación de productos
       initializeSearchProduct(); // Inicializar la funcionalidad de búsqueda
       initializeDuplicateProductRow();
-      
+
       setupInstallPrompt('installButton');
       try {
         const email = await getUserEmail(); // Obtener correo del usuario

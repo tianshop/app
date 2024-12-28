@@ -116,3 +116,8 @@
 .product-modal #costoConItbms-Descuento {
   border: none;
 }
+
+input[readonly] {
+  background-color: #f0f0f0;
+  color: #333;
+}

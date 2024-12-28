@@ -36,7 +36,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
         paginationContainer.innerHTML = ""; // Limpiar botones previos
 
         const totalPages = Math.ceil(totalRows / rowsPerPage);
-        const maxVisiblePages = 5;
+        const maxVisiblePages = 3;
 
         // Determinar el rango de páginas visibles
         let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
@@ -48,7 +48,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
 
         // Botón de Inicio
         const startButton = document.createElement("button");
-        startButton.className = "btn custom-button mx-1";
+        startButton.className = "btn custom-button mx-1 pagination-custom";
         startButton.innerHTML = '<i class="bi bi-chevron-double-left"></i>';
         startButton.disabled = currentPage === 1;
         startButton.addEventListener("click", () => {
@@ -59,7 +59,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
 
         // Botón de Atrás
         const prevButton = document.createElement("button");
-        prevButton.className = "btn custom-button mx-1";
+        prevButton.className = "btn custom-button mx-1 pagination-custom";
         prevButton.innerHTML = '<i class="bi bi-chevron-left"></i>';
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener("click", () => {
@@ -73,7 +73,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
         // Botones de páginas visibles
         for (let i = startPage; i <= endPage; i++) {
             const button = document.createElement("button");
-            button.className = "btn custom-button mx-1";
+            button.className = "btn custom-button mx-1 pagination-custom";
             button.textContent = i;
 
             button.addEventListener("click", () => {
@@ -90,7 +90,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
 
         // Botón de Adelante
         const nextButton = document.createElement("button");
-        nextButton.className = "btn custom-button mx-1";
+        nextButton.className = "btn custom-button mx-1 pagination-custom";
         nextButton.innerHTML = '<i class="bi bi-chevron-right"></i>';
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener("click", () => {
@@ -103,7 +103,7 @@ export function initializePagination(tableBodyId, rowsPerPage) {
 
         // Botón de Final
         const endButton = document.createElement("button");
-        endButton.className = "btn custom-button mx-1";
+        endButton.className = "btn custom-button mx-1 pagination-custom";
         endButton.innerHTML = '<i class="bi bi-chevron-double-right"></i>';
         endButton.disabled = currentPage === totalPages;
         endButton.addEventListener("click", () => {
