@@ -1,3 +1,7 @@
+* {
+    --clr-secondary: #d4edda;
+}
+
 .table {
     border-collapse: collapse;
     table-layout: auto;
@@ -9,12 +13,13 @@
     align-items: center;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     color: #666;
     text-align: center;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 th {
@@ -34,16 +39,16 @@ a:hover {
 
 .sticky-col-1 {
     position: sticky;
-    left: 0;
-    background-color: white;
-    z-index: 2;
-    border-right: 1px solid #ddd;
-  }
-  
-  .sticky-col-2 {
+    left: -1rem;
+    background-color: var(--clr-secondary) !important;
+    z-index: 3;
+    border: 2px solid #ddd;
+}
+
+.sticky-row-1 {
     position: sticky;
-    left: 37px; 
-    background-color: white;
+    top: -1rem;
+    background-color: var(--clr-secondary) !important;
     z-index: 2;
-    border-right: 1px solid #ddd;
-  }
+    border: 2px solid #ddd;
+}

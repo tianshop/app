@@ -14,14 +14,14 @@
     width: 180px;
     height: 50px;
     background-color: transparent;
-    border: 2px solid var(--clr-primary);
+    border: 2px solid var(--clr-button);
     border-radius: 16px 0 0 16px;
 }
 
 .searchInput-container #searchButton {
     height: 50px;
     padding: 0 20px;
-    background-color: var(--clr-primary);
+    background-color: var(--clr-button);
     font-size: 1.5em;
     font-weight: 500;
     color: white;
@@ -40,35 +40,10 @@
     cursor: pointer;
     padding: 0 10px;
     font-size: 17px;
-    color: var(--clr-primary);
-    border: 2px solid var(--clr-primary);
+    color: var(--clr-button);
+    border: 2px solid var(--clr-button);
     background-color: white;
     border-radius: 16px;
     margin-left: 10px;
     z-index: 1;
-}
-
-#showModalButton::before {
-    position: absolute;
-    content: "";
-    background: var(--clr-primary);
-    width: 150px;
-    height: 200px;
-    z-index: -1;
-    border-radius: 50%;
-}
-
-#showModalButton:hover {
-    color: white;
-}
-
-#showModalButton:before {
-    top: 100%;
-    left: 100%;
-    transition: 0.3s all;
-}
-
-#showModalButton:hover::before {
-    top: -30px;
-    left: -30px;
 }

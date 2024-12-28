@@ -2,9 +2,9 @@
 export function createTableRow(productData, filaNumero) {
   return `
       <tr>
-        <td class="text-center">${filaNumero}</td>
+        <td class="text-center sticky-col-1">${filaNumero}</td>
         <td>
-          <button class="btn btn-primary btn-sm options-button" 
+          <button class="btn custom-button" 
                   type="button"
                   data-bs-toggle="popover" 
                   data-bs-html="true"

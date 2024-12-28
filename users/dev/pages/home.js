@@ -5,16 +5,18 @@ import {
 import { database, auth } from "../../../environment/firebaseConfig.js";
 import { checkAuth } from "../../../modules/accessControl/authCheck.js";
 import { getUserEmail } from "../../../modules/accessControl/getUserEmail.js";
+import { setupInstallPrompt } from '../../../modules/installPrompt.js';
 import { createTableRow } from "./modules/tabla/createTableRow.js";
 import { initializePopovers } from "./modules/popover/popover.js";
 import { initializeSearchProduct } from "./modules/tabla/search-product.js";
 import { initializeDeleteProductRow } from "./modules/tabla/deleteProductRow.js";
 import { initializeDuplicateProductRow } from "./modules/tabla/duplicateProductRow.js";
+import { initializePagination } from "./components/pagination/pagination.js";
 
 // Constantes y variables de estado
 const tabla = document.getElementById("contenidoTabla");
 
-export function mostrarDatos() {
+export function mostrarDatos(callback) {
   const currentUser = auth.currentUser;
 
   if (!currentUser) {
@@ -44,6 +46,9 @@ export function mostrarDatos() {
 
     // Inicializar popovers después de renderizar la tabla
     initializePopovers();
+
+    // Llama al callback para actualizar la paginación
+    if (callback) callback();
   });
 }
 
@@ -52,10 +57,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   checkAuth(); // Verificar autenticación
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      mostrarDatos(); // Mostrar datos solo si el usuario está autenticado
+      const { updatePagination } = initializePagination("contenidoTabla", 5);
+
+      mostrarDatos(() => {
+        updatePagination(); // Actualiza la paginación después de mostrar los datos
+      });
+
       initializeDeleteProductRow(); // Inicializar eliminación de productos
       initializeSearchProduct(); // Inicializar la funcionalidad de búsqueda
       initializeDuplicateProductRow();
+      
+      setupInstallPrompt('installButton');
       try {
         const email = await getUserEmail(); // Obtener correo del usuario
         console.log(`Correo del usuario: ${email}`); // Mostrar correo en la consola
