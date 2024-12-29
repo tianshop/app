@@ -1,2 +1,3 @@
-implementar , deleteRow
-searchFunction
+
+searchFunction: buscar en shared-data
+columna de acciones: si es compartido, no mostrar boton de acciones

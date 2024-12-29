@@ -2,7 +2,7 @@ import { auth, database } from "../../../../../environment/firebaseConfig.js";
 import { ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 import { showToast } from "../../components/toast/toastLoader.js";
 import { createTableRow } from "./createTableRow.js"; // Importar función de creación de filas
-import { initializePopovers } from "../popover/popover.js";
+import { initializePopovers } from "../../components/popover/popover.js";
 
 export function initializeSearchProduct() {
   const searchInput = document.getElementById("searchInput");

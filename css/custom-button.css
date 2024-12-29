@@ -12,9 +12,9 @@
     padding: 0.5em 1em;
     cursor: pointer;
     border-radius: 0.5em;
-    background: #e8e8e8;
+    background: white;
     color: #333;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--clr-button);
   }
   
   .custom-button:before {

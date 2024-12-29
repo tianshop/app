@@ -1,9 +1,24 @@
 // createTableRow.js
 export function createTableRow(productData, filaNumero) {
+  const sharedInfoPopover = productData.sharedByEmail
+    ? `<button class="custom-button info-btn"
+              data-bs-toggle="popover"
+              data-bs-html="true"
+              data-bs-placement="top"
+              title="Información Compartida"
+              data-bs-content="
+                Compartido por: <strong>${productData.sharedByEmail}</strong><br>
+                Fecha: <strong>${productData.sharedAt}</strong>
+              ">  
+              <i class="bi bi-info-circle"></i>
+      </button>
+    `
+    : "";
+
   return `
       <tr>
         <td class="text-center sticky-col-1">${filaNumero}</td>
-        <td>
+        <td class="text-center sticky-col-2">
           <button class="btn custom-button" 
                   type="button"
                   data-bs-toggle="popover" 
@@ -20,13 +35,15 @@ export function createTableRow(productData, filaNumero) {
                       <button class='btn btn-sm btn-secondary duplicate-product-button' data-id='${productData.id}'>
                         Duplicar
                       </button>
-                    </div>
                   ">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
+          ${sharedInfoPopover}
         </td>
         <td class="text-center">${productData.fecha}</td>
-        <td class="text-center">${productData.producto.empresa}</td>
+        <td class="text-center">
+          ${productData.producto.empresa} 
+        </td>
         <td class="text-center">${productData.producto.marca}</td>
         <td class="text-center">${productData.producto.descripcion}</td>
         <td class="text-center">${productData.precio.venta}</td>
