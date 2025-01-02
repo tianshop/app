@@ -29,10 +29,17 @@ const tableHeaders = [
 export function renderTableHeaders(tableHeadersElement) {
   tableHeadersElement.innerHTML = `
     <tr>
-      ${tableHeaders.map((header) => `<th>${header}</th>`).join("")}
+      ${tableHeaders
+        .map((header, index) =>
+          index === 1
+            ? `<th class="sticky-col-2">${header}</th>` // Aplica la clase al segundo encabezado
+            : `<th>${header}</th>`
+        )
+        .join("")}
     </tr>
   `;
 }
+
 
 export function createTableBody(productData, filaNumero) {
   const sharedInfoPopover = productData.sharedByEmail
