@@ -49,6 +49,18 @@ export function initializeEditProduct() {
     });
   }
 
+  // Limpiar inputs al hacer clic en los botones correspondientes
+  editForm.querySelectorAll(".clear-input").forEach((button) => {
+    button.addEventListener("click", () => {
+      const inputId = button.getAttribute("data-input");
+      const inputElement = editForm.querySelector(`#${inputId}`);
+      if (inputElement) {
+        inputElement.value = "";
+        handleCalculation(); // Recalcular valores relacionados
+      }
+    });
+  });
+
   // Asignar valores iniciales al abrir el modal
   document.addEventListener("click", async (e) => {
     if (e.target.closest(".edit-product-button")) {
