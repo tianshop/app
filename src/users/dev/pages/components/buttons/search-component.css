@@ -1,9 +1,4 @@
-.searchInput-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+.searchInput-container,
 .searchInput-content {
     display: flex;
     align-items: center;
@@ -30,11 +25,14 @@
 }
 
 #searchButton:hover,
-#showModalButton:hover {
+#showModalButton:hover,
+#start-scan:hover {
     color: white;
 }
 
-#showModalButton {
+#showModalButton,
+#start-scan,
+#stop-scan {
     position: relative;
     height: 50px;
     overflow: hidden;
