@@ -40,6 +40,22 @@ export function renderTableHeaders(tableHeadersElement) {
   `;
 }
 
+export async function renderTableBody(tableBodyElement, productDataArray) {
+  try {
+
+    let tableBodyHTML = "";
+
+    productDataArray.forEach((productData, index) => {
+      tableBodyHTML += createTableBody(productData, index + 1);
+    });
+
+    tableBodyElement.innerHTML = tableBodyHTML;
+
+    initializePopovers(); // Inicializar popovers después de renderizar
+  } catch (error) {
+    console.error("Error al renderizar el cuerpo de la tabla:", error);
+  }
+}
 
 export function createTableBody(productData, filaNumero) {
   const sharedInfoPopover = productData.sharedByEmail

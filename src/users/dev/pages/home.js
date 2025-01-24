@@ -12,31 +12,35 @@ import { getUserEmail } from "../../../modules/accessControl/getUserEmail.js";
 import { setupInstallPrompt } from "../../../modules/installPrompt.js";
 import { initializePopovers } from "./components/popover/popover.js";
 import { initializePagination } from "./components/pagination/pagination.js";
-import { initializeSearchProduct } from "./modules/tabla/search-product.js";
-import { renderTableHeaders, createTableBody } from "./modules/tabla/createTableElements.js";
+import { initializeSearchProduct } from "./modules/search-product.js";
+import {
+  renderTableHeaders,
+  createTableBody,
+} from "./modules/tabla/createTableElements.js";
 import { initializeDuplicateProductRow } from "./modules/tabla/duplicateProductRow.js";
 import { initializeDeleteHandlers } from "./modules/tabla/deleteHandlersRow.js";
+// import { initGraph } from "./modules/graph.js";
 
 // Constantes
-const tablaContenido = document.getElementById("contenidoTabla");
+const tableContent = document.getElementById("tableContent");
 const tableHeadersElement = document.getElementById("table-headers");
 
 // Función principal para mostrar datos
-export function mostrarDatos(callback) {
-  const currentUser = auth.currentUser;
+export async function mostrarDatos(callback) {
+  const email = await getUserEmail();
 
-  if (!currentUser) {
-    console.error("El usuario no ha iniciado sesión.");
+  if (!email) {
+    console.error("No se pudo obtener el correo del usuario.");
     return;
   }
 
-  const userId = currentUser.uid;
-  const userProductsRef = ref(database, `users/${userId}/productData`);
-  const sharedDataRef = ref(database, `users/${userId}/sharedData`);
+  // Ruta personal de los datos del usuario
+  const userProductsRef = ref(database, `users/${email.replaceAll(".", "_")}/productData`);
+  const sharedDataRef = ref(database, `users/${email.replaceAll(".", "_")}/sharedData`);
 
   const updateTable = async () => {
     try {
-      tablaContenido.innerHTML = ""; // Limpia la tabla antes de renderizar
+      tableContent.innerHTML = ""; // Limpia la tabla antes de renderizar
       const [userProductsSnapshot, sharedSnapshot] = await Promise.all([
         get(userProductsRef),
         get(sharedDataRef),
@@ -72,6 +76,7 @@ export function mostrarDatos(callback) {
         }
       }
 
+      // Ordenar los datos
       data.sort((a, b) => {
         const empresaDiff = a.producto.empresa.localeCompare(b.producto.empresa);
         if (empresaDiff !== 0) return empresaDiff;
@@ -85,31 +90,55 @@ export function mostrarDatos(callback) {
         return a.precio.venta.localeCompare(b.precio.venta);
       });
 
+      // Renderizar filas de la tabla
       let filaNumero = 1;
       for (const productData of data) {
-        tablaContenido.innerHTML += createTableBody(productData, filaNumero++);
+        tableContent.innerHTML += createTableBody(productData, filaNumero++);
       }
 
-      initializePopovers();
+      // initGraph(data);
+      initializePopovers(); // Inicializar popovers después de renderizar
       if (callback) callback();
     } catch (error) {
       console.error("Error al mostrar los datos:", error);
     }
   };
 
-  onValue(ref(database, `users/${userId}`), updateTable);
+  onValue(ref(database, `users/${email.replaceAll(".", "_")}`), updateTable);
 }
 
-// Inicializar sesión del usuario
+document.addEventListener("DOMContentLoaded", () => {
+  checkAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      initializeUserSession(user);
+    } else {
+      console.error("Usuario no autenticado.");
+    }
+  });
+});
+
 function initializeUserSession(user) {
-  renderTableHeaders(tableHeadersElement); // Renderizar cabeceras al inicio
-  const { updatePagination } = initializePagination("contenidoTabla", 5);
+  if (!document.getElementById("tableContent")) {
+    console.error("El contenedor de la tabla no está presente en el DOM.");
+    return;
+  }
+
+  renderTableHeaders(tableHeadersElement);
+  const { updatePagination } = initializePagination("tableContent", 10);
 
   mostrarDatos(() => {
-    updatePagination(); // Actualiza la paginación después de mostrar los datos
+    updatePagination();
   });
 
-  initializeSearchProduct();
+  // Verificar elementos necesarios antes de inicializar
+  if (document.getElementById("searchInput") && document.getElementById("searchButton")) {
+    initializeSearchProduct();
+  } else {
+    console.error("No se encontraron los elementos de búsqueda.");
+  }
+
   initializeDuplicateProductRow();
   setupInstallPrompt("installButton");
   initializeDeleteHandlers();
@@ -122,14 +151,3 @@ function initializeUserSession(user) {
       console.error("Error al obtener el correo del usuario:", error);
     });
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  checkAuth();
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      initializeUserSession(user);
-    } else {
-      console.error("Usuario no autenticado.");
-    }
-  });
-});

@@ -8,12 +8,12 @@ import {
   get,
   child,
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import { setTodayDate, formatInputAsDecimal } from "./utils/utils.js";
 import { showToast } from "../toast/toastLoader.js";
-import { setTodayDate, formatInputAsDecimal } from "./utils/utils.js"; // Ajusta la ruta según tu estructura de archivos
 
 export function initializeRegisterPurchase() {
   const modalForm = document.getElementById("registerPurchaseForm");
-  const modalElement = document.getElementById("registerPurchaseModal"); // El ID del modal
+  const modalElement = document.getElementById("registerPurchaseModal");
   if (!modalForm || !modalElement) {
     console.error(
       "No se encontró el formulario del modal o el elemento modal."
@@ -23,14 +23,20 @@ export function initializeRegisterPurchase() {
 
   // Obtener elementos del formulario
   const fecha = document.getElementById("fecha");
-  const metodo = document.getElementById("metodo");
+  const estado = document.getElementById("estado");
   const empresa = document.getElementById("empresa");
   const monto = document.getElementById("monto");
 
-  // Establecer valores predeterminados
-  setTodayDate(fecha); // Establece la fecha de hoy en el input de fecha
-  metodo.value = "efectivo"; // Establece el valor por defecto del select a "efectivo"
-  formatInputAsDecimal(monto);
+  // Función para reiniciar el formulario a su estado inicial
+  const resetForm = () => {
+    modalForm.reset();
+    setTodayDate(fecha);
+    estado.value = "Pagado"; 
+    formatInputAsDecimal(monto);
+  };
+
+  // Establecer valores predeterminados al inicializar
+  resetForm();
 
   // Manejo del envío del formulario
   modalForm.addEventListener("submit", async (e) => {
@@ -38,7 +44,7 @@ export function initializeRegisterPurchase() {
 
     if (
       !fecha.value ||
-      !metodo.value.trim() ||
+      !estado.value.trim() ||
       !empresa.value.trim() ||
       isNaN(parseFloat(monto.value.replace(/,/g, "")))
     ) {
@@ -49,7 +55,7 @@ export function initializeRegisterPurchase() {
     const purchaseData = {
       fecha: fecha.value,
       factura: {
-        metodo: metodo.value.trim(),
+        estado: estado.value.trim(),
         empresa: empresa.value.trim(),
         monto: new Intl.NumberFormat("en-US", {
           style: "decimal",
@@ -78,10 +84,8 @@ export function initializeRegisterPurchase() {
         return;
       }
 
-      const userPurchaseRef = ref(
-        database,
-        `users/${userId}/recordData/purchaseData`
-      );
+      const userPurchaseRef =
+      ref(database, `users/${userId}/recordData/purchaseData`);
       await push(userPurchaseRef, purchaseData);
 
       showToast("Factura registrada con éxito.", "success");
@@ -91,13 +95,14 @@ export function initializeRegisterPurchase() {
       if (bootstrapModal) {
         bootstrapModal.hide();
       }
-
-      modalForm.reset();
-      setTodayDate(fecha); // Restablecer la fecha al valor actual después de limpiar el formulario
-      metodo.value = "efectivo"; // Restablecer el valor predeterminado del select
     } catch (error) {
       console.error("Error al guardar los datos:", error);
       showToast("Hubo un error al registrar la factura de compra.", "error");
     }
+  });
+
+  // Evento para reiniciar el formulario al cerrar el modal
+  modalElement.addEventListener("hidden.bs.modal", () => {
+    resetForm();
   });
 }

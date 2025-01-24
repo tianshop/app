@@ -11,9 +11,10 @@ const tableHeaders = [
   "Fecha",
   "Empresa",
   `Monto<br> <span id="total-monto"></span>`, // Ajuste aquí
-  "Método",
+  "Estado",
 ];
 
+// Función para renderizar los encabezados de la tabla
 export function renderTableHeaders(tableHeadersElement) {
   tableHeadersElement.innerHTML = `
     <tr>
@@ -22,11 +23,17 @@ export function renderTableHeaders(tableHeadersElement) {
   `;
 }
 
+// Función para crear una fila de la tabla
 export function createTableBody(purchaseData, filaNumero) {
   const factura = purchaseData.factura || {};
-  const empresa = factura.empresa || "N/A";
-  const metodo = factura.metodo || "N/A";
-  const monto = factura.monto || "N/A";
+  const estado = factura.estado || "---";
+  const empresa = factura.empresa || "---";
+  const monto = factura.monto || "---";
+
+  // Convertir la fecha para determinar si es domingo
+  const fecha = new Date(purchaseData.fecha);
+  const isSunday = fecha.getDay() === 6;
+  const fechaFormateada = formatWithSpaceBreaks(formatDateWithDay(purchaseData.fecha));
 
   const actionButton = `<button class="btn custom-button" type="button" data-bs-toggle="popover" 
           data-bs-html="true" data-bs-placement="right"
@@ -45,19 +52,33 @@ export function createTableBody(purchaseData, filaNumero) {
       <td class="sticky-col-2 clr-cel">
         ${actionButton}
       </td>
-      <td>${formatWithSpaceBreaks(formatDateWithDay(purchaseData.fecha))}</td>
+      <td style="color: ${isSunday ? "red" : "inherit"};">${fechaFormateada}</td>
       <td>${empresa}</td>
       <td class="clr-cel f500 monto-celda">${monto}</td>
-      <td>${metodo}</td>
+      <td>${formatWithSpaceBreaks(estado)}</td>
     </tr>
   `;
+}
+
+// Función para renderizar el cuerpo de la tabla con las fechas ordenadas
+export function renderTableBody(tableBodyElement, data) {
+  // Ordenar los datos por fecha en orden ascendente
+  const sortedData = [...data].sort((a, b) => {
+    const fechaA = new Date(a.fecha).getTime();
+    const fechaB = new Date(b.fecha).getTime();
+    return fechaA - fechaB; // Ascendente
+  });
+
+  // Generar las filas de la tabla
+  tableBodyElement.innerHTML = sortedData
+    .map((purchaseData, index) => createTableBody(purchaseData, index + 1))
+    .join("");
 }
 
 // Función para calcular y actualizar el total de "Monto"
 export function updateTotalMonto() {
   const montoCeldas = document.querySelectorAll(".monto-celda");
   const total = Array.from(montoCeldas).reduce((sum, cell) => {
-    // Limpia el texto de la celda (elimina comas) y conviértelo a número
     const value = parseFloat(cell.textContent.replace(/,/g, "")) || 0;
     return sum + value;
   }, 0);
@@ -67,6 +88,6 @@ export function updateTotalMonto() {
     totalMontoElement.textContent = `(${total.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })})`; // Formatea con separadores y 2 decimales
+    })})`;
   }
 }
