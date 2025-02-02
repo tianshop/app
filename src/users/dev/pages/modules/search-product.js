@@ -16,9 +16,14 @@ export function initializeSearchProduct() {
 
   if (!searchInput || !searchButton || !recentSearchesContainer) return;
 
-  const handleSearch = async () => {
+  // Actualizar currentSearchQuery en tiempo real con cada cambio en el input
+  searchInput.addEventListener("input", () => {
     currentSearchQuery = searchInput.value.trim();
-    
+  });
+
+  const handleSearch = async () => {
+    currentSearchQuery = searchInput.value.trim(); // Sincronizar con el input actual
+
     if (!currentSearchQuery) {
       showToast("Ingresa un término de búsqueda", "warning");
       return;
@@ -40,8 +45,8 @@ export function initializeSearchProduct() {
       ]);
 
       currentFilteredResults = processSearchResults(
-        userProductsSnapshot, 
-        sharedSnapshot, 
+        userProductsSnapshot,
+        sharedSnapshot,
         currentSearchQuery
       );
 
@@ -59,10 +64,30 @@ export function initializeSearchProduct() {
   searchButton.addEventListener("click", handleSearch);
   searchInput.addEventListener("keydown", (e) => e.key === "Enter" && handleSearch());
 
+  // Mostrar búsquedas recientes al enfocar el input
   searchInput.addEventListener("focus", async () => {
     if (auth.currentUser) {
       recentSearchesContainer.classList.remove("hidden");
       await displayRecentSearches(auth.currentUser.email.replaceAll(".", "_"), database);
+    }
+  });
+
+  // Ocultar lista de búsquedas al hacer clic fuera
+  document.addEventListener("click", (e) => {
+    const isInput = e.target === searchInput;
+    const isSearchItem = e.target.closest(".recent-search-item");
+    const isContainer = recentSearchesContainer.contains(e.target);
+
+    if (!isInput && !isContainer && !isSearchItem) {
+      recentSearchesContainer.classList.add("hidden");
+    }
+  });
+
+  // Escuchar evento para refrescar la tabla con el término actual
+  window.addEventListener("refreshTable", () => {
+    if (currentSearchQuery) {
+      searchInput.value = currentSearchQuery; // Forzar sincronización visual
+      handleSearch(); // Re-ejecutar búsqueda
     }
   });
 }
@@ -92,7 +117,7 @@ function processSearchResults(userProductsSnapshot, sharedSnapshot, query) {
           sharedAt: metadata.sharedAt,
           sharedBy
         };
-        
+
         if (matchesQuery(combinedData, lowerQuery)) {
           results.push(combinedData);
         }
@@ -100,7 +125,7 @@ function processSearchResults(userProductsSnapshot, sharedSnapshot, query) {
     });
   }
 
-  return results.sort((a, b) => 
+  return results.sort((a, b) =>
     a.producto.empresa.localeCompare(b.producto.empresa) ||
     a.producto.marca.localeCompare(b.producto.marca) ||
     a.producto.descripcion.localeCompare(b.producto.descripcion)
@@ -128,7 +153,7 @@ export function getCurrentSearchQuery() {
   return currentSearchQuery;
 }
 
-// Función para re-aplicar búsqueda desde otros módulos
+// Función global para re-aplicar la búsqueda
 window.reapplySearch = () => {
   if (currentSearchQuery) {
     document.getElementById("searchInput").value = currentSearchQuery;
