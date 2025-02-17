@@ -1,0 +1,154 @@
+:root {
+    --bg-cal: #f1f3f5;
+}
+
+/* Estilos para el botón de abrir el calendario */
+.calendar-button {
+    height: 40px;
+    margin: 10px;
+    color: var(--clr-button);
+    border: 2px solid var(--clr-button);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilos generales para el modal */
+.calendar-modal {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.calendar-modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Estilos para el encabezado del calendario */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em;
+    background-color: #89CFF0;
+    color: white;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.nav-button:hover {
+    opacity: 0.8;
+}
+
+/* Estilos para la cuadrícula del calendario */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 10px;
+}
+
+.calendar-day {
+    font-weight: 500;
+    text-align: center;
+    margin: 1px;
+    padding: 5px;
+    background-color: var(--bg-cal);
+    border: 1px solid #999;
+    border-radius: 6px;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.calendar-date {
+    text-align: center;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-date:hover {
+    background-color: var(--bg-cal);
+    border: 1px solid #999;
+}
+
+.calendar-date.sunday {
+    color: var(--clr-error);
+}
+
+/* Estilos para el total de monto debajo de cada fecha */
+.calendar-monto {
+    font-size: 0.75em;
+}
+
+.calendar-date.current-date {
+    background-color: var(--bg-cal);
+    border: 1px solid #999;
+    .calendar-monto {
+        color: #333;
+        font-size: 1em;
+    }
+}
+
+/* Estilos para los selectores de mes y año */
+#monthSelect, #yearSelect {
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    color: #333;
+    margin-left: 5px;
+    cursor: pointer;
+    width: auto;
+}
+
+#monthSelect:hover,
+#yearSelect:hover {
+    border-color: #007bff;
+}
+
+@media (max-width: 2000px) {
+    .calendar-modal {
+        padding: 5px;
+    }
+
+    .calendar-header h2 {
+        font-size: 0.95em;
+    }
+
+    .calendar-date {
+        padding: 20px 0 10px 0;
+        font-size: 0.9em;
+        font-weight: 500;
+        margin: 1px;
+    }
+}
