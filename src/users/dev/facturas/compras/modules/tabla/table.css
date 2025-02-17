@@ -1,0 +1,64 @@
+/* Estilos Generales */
+th, td {
+    border: 2px solid #ddd;
+    padding: 8px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+th {
+    font-weight: 500;
+}
+
+/* Estilos de Celdas Pegajosas (Sticky) */
+th,
+.clr-cel {
+    background-color: var(--clr-secondary) !important;
+}
+
+.f500 {
+    font-weight: 500;
+}
+
+th i {
+    font-size: 2rem;
+}
+
+.sticky-col-2 {
+    font-size: 2rem;
+    position: sticky;
+    left: -1rem;
+    z-index: 4;
+}
+
+/* Botones de Información */
+.info-btn {
+    height: 40px;
+    vertical-align: middle;
+    border-radius: 50%;
+    color: var(--clr-text);
+}
+
+.info-btn i {
+    font-size: 0.8rem;
+}
+
+.info-btn i:hover {
+    color: white;
+}
+
+/* Nuevos estilos para hover y selección */
+.table-striped tbody tr:hover,
+.table-striped tbody tr.selected {
+    background-color: #b0e0e6 !important;  /* Azul pastel */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Opcional: Refuerza color en celdas individuales */
+.table-striped tbody tr:hover td,
+.table-striped tbody tr.selected td {
+    background-color: inherit !important;
+}
