@@ -4,12 +4,12 @@ import { ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-da
 import { saveSearch, displayRecentSearches } from "../components/nav-header/search/searchHistory.js";
 import { showToast } from "../components/toast/toastLoader.js";
 import { renderTableBody } from "./tabla/createTableElements.js";
-import { initializePopovers } from "../components/popover/popover.js";
+import { initializePopovers } from "../components/popover/action-popover/action-popover.js";
 
 let currentSearchQuery = "";
 let currentFilteredResults = [];
 
-export function initializeSearchProduct() {
+export function initializeSearchProduct(tableHeadersElement) {
   const searchInput = document.getElementById("searchInput");
   const searchButton = document.getElementById("searchButton");
   const recentSearchesContainer = document.getElementById("recentSearches");
@@ -53,7 +53,14 @@ export function initializeSearchProduct() {
       if (currentFilteredResults.length === 0) {
         showToast("No se encontraron resultados", "info");
       } else {
-        displaySearchResults(currentFilteredResults);
+        // Verificar la existencia de tableHeadersElement y resultsContainer antes de llamar a displaySearchResults
+        const tableHeadersElement = document.getElementById("table-headers");
+        const resultsContainer = document.getElementById("tableContent");
+        if (tableHeadersElement && resultsContainer) {
+          displaySearchResults(currentFilteredResults, tableHeadersElement);
+        } else {
+          console.error("tableHeadersElement or resultsContainer is undefined");
+        }
       }
     } catch (error) {
       console.error("Error en búsqueda:", error);
@@ -141,12 +148,14 @@ function matchesQuery(item, lowerQuery) {
   );
 }
 
-export function displaySearchResults(results) {
+export function displaySearchResults(results, tableHeadersElement) {
   const resultsContainer = document.getElementById("tableContent");
-  if (!resultsContainer) return;
-
-  renderTableBody(resultsContainer, results);
-  initializePopovers();
+  if (!resultsContainer || !tableHeadersElement) {
+    console.error("tableHeadersElement or resultsContainer is undefined");
+    return;
+  }
+  renderTableBody(tableHeadersElement, resultsContainer, results);
+  initializePopovers(tableHeadersElement, resultsContainer, results);
 }
 
 export function getCurrentSearchQuery() {
